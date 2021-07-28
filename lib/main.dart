@@ -28,108 +28,118 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => NewsCubit()..changeAppTheme(fromShared: isDark),
-        child: BlocConsumer<NewsCubit, NewsStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'News App',
-              theme: ThemeData(
-                appBarTheme: AppBarTheme(
-                    titleSpacing: 20,
-                    backwardsCompatibility: false,
-                    // use this to access status bar
-                    systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarColor: Colors.white,
-                      statusBarIconBrightness: Brightness.dark,
-                    ),
-                    iconTheme: IconThemeData(color: Colors.black),
-                    backgroundColor: Colors.white,
-                    elevation: 0.0,
-                    titleTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    )),
-                scaffoldBackgroundColor: Colors.white,
-                primarySwatch: Colors.deepOrange,
-                textTheme: TextTheme(
-                    bodyText1: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
-                bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: Colors.white,
-                  elevation: 20.0,
-                  selectedItemColor: Colors.deepOrange,
-                ),
-              ),
-              darkTheme: ThemeData(
-                appBarTheme: AppBarTheme(
-                    titleSpacing: 20,
-                    backwardsCompatibility: false,
-                    // use this to access status bar
-                    systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarColor: HexColor('333739'),
-                      statusBarIconBrightness: Brightness.light,
-                    ),
-                    iconTheme: IconThemeData(color: Colors.white),
-                    backgroundColor: HexColor('333739'),
-                    elevation: 0.0,
-                    titleTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    )),
-                scaffoldBackgroundColor: HexColor('333739'),
-                textTheme: TextTheme(
-                    bodyText1: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                )),
-                bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                  type: BottomNavigationBarType.fixed,
-                  elevation: 20.0,
-                  selectedItemColor: Colors.deepOrange,
-                  unselectedItemColor: Colors.grey,
-                  backgroundColor: HexColor('333739'),
-                ),
-                primarySwatch: Colors.deepOrange,
-              ),
-              themeMode: NewsCubit.get(context).isDark
-                  ? ThemeMode.dark
-                  : ThemeMode.light,
-              home: NewsLayout(),
-            );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            NewsCubit();
           },
-        ));
-  }
-}
-//
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('News App'),
-      ),
-      body: Center(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.home),
-        onPressed: (){
-          NewsCubit.get(context).changeTheme();
+        ),
+        BlocProvider(
+          create: (context) => NewsCubit()..changeAppTheme(fromShared: isDark),
+        )
+      ],
+      child: BlocConsumer<NewsCubit, NewsStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'News App',
+            theme: ThemeData(
+              appBarTheme: AppBarTheme(
+                  titleSpacing: 20,
+                  backwardsCompatibility: false,
+                  // use this to access status bar
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                  ),
+                  iconTheme: IconThemeData(color: Colors.black),
+                  backgroundColor: Colors.white,
+                  elevation: 0.0,
+                  titleTextStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  )),
+              scaffoldBackgroundColor: Colors.white,
+              primarySwatch: Colors.deepOrange,
+              textTheme: TextTheme(
+                  bodyText1: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.white,
+                elevation: 20.0,
+                selectedItemColor: Colors.deepOrange,
+              ),
+            ),
+            darkTheme: ThemeData(
+              appBarTheme: AppBarTheme(
+                  titleSpacing: 20,
+                  backwardsCompatibility: false,
+                  // use this to access status bar
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: HexColor('333739'),
+                    statusBarIconBrightness: Brightness.light,
+                  ),
+                  iconTheme: IconThemeData(color: Colors.white),
+                  backgroundColor: HexColor('333739'),
+                  elevation: 0.0,
+                  titleTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  )),
+              scaffoldBackgroundColor: HexColor('333739'),
+              textTheme: TextTheme(
+                  bodyText1: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              )),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                type: BottomNavigationBarType.fixed,
+                elevation: 20.0,
+                selectedItemColor: Colors.deepOrange,
+                unselectedItemColor: Colors.grey,
+                backgroundColor: HexColor('333739'),
+              ),
+              primarySwatch: Colors.deepOrange,
+            ),
+            themeMode: NewsCubit.get(context).isDark
+                ? ThemeMode.dark
+                : ThemeMode.light,
+            home: NewsLayout(),
+          );
         },
       ),
     );
   }
 }
+
+// class MyHomePage extends StatefulWidget {
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('News App'),
+//       ),
+//       body: Center(),
+//       floatingActionButton: FloatingActionButton(
+//         child: Icon(Icons.home),
+//         onPressed: (){
+//           NewsCubit.get(context).changeTheme();
+//         },
+//       ),
+//     );
+//   }
+// }

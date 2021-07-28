@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/cubit/cubit.dart';
 import 'package:news_app/cubit/states.dart';
 
-Widget buildArticleItem(article,context) => Padding(
+Widget buildArticleItem(article, context) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
@@ -30,14 +30,15 @@ Widget buildArticleItem(article,context) => Padding(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Text(
-                      "${article['title']}",
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyText1
-                    ),
+                    child: Text("${article['title']}",
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyText1),
                   ),
-                  Text('${article['publishedAt']}' ,style: TextStyle(color: Colors.blue),),
+                  Text(
+                    '${article['publishedAt']}',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ],
               ),
             ),
@@ -46,21 +47,52 @@ Widget buildArticleItem(article,context) => Padding(
       ),
     );
 
-Widget buildArticle(list,context){
+Widget buildArticle(list, context) {
   return ConditionalBuilder(
-      condition: list.length>0,
+      condition: list.length > 0,
       builder: (context) => ListView.separated(
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildArticleItem(list[index],context),
-        separatorBuilder: (context, index) => Padding(
-          padding: const EdgeInsetsDirectional.only(start: 20.0),
-          child: Container(
-            width: double.infinity,
-            height: 1,
-            color: Colors.grey[300],
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) =>
+                buildArticleItem(list[index], context),
+            separatorBuilder: (context, index) => Padding(
+              padding: const EdgeInsetsDirectional.only(start: 20.0),
+              child: Container(
+                width: double.infinity,
+                height: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+            itemCount: list.length,
           ),
-        ),
-        itemCount: list.length,
-      ),
       fallback: (context) => Center(child: CircularProgressIndicator()));
 }
+
+Widget defaultFormField({
+  @required TextEditingController controller,
+  @required TextInputType type,
+  Function onSubmit,
+  Function onChange,
+  Function onTap,
+  bool isPassword = false,
+  @required Function validate,
+  @required String label,
+  @required IconData prefix,
+}) {
+  return TextFormField(
+    controller: controller,
+    keyboardType: type,
+    obscureText: isPassword,
+    onFieldSubmitted: onSubmit,
+    onChanged: onChange,
+    onTap: onTap,
+    validator: validate,
+    decoration: InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(prefix),
+      border: OutlineInputBorder(),
+    ),
+  );
+}
+
+void navigateTo(context, widget) =>
+    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
