@@ -5,50 +5,52 @@ import 'package:news_app/cubit/cubit.dart';
 import 'package:news_app/cubit/states.dart';
 import 'package:news_app/modules/web_view/web_view.dart';
 
-Widget buildArticleItem(article, context) => InkWell(
-      onTap: () {
-        navigateTo(context, WebViewScreen(article['url']));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage('${article["urlToImage"]}')),
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Container(
+Widget buildArticleItem(article, context, index) => Container(
+      child: InkWell(
+        onTap: () {
+
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Container(
+                width: 120,
                 height: 120,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Text("${article['title']}",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                    Text(
-                      '${article['publishedAt']}',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ],
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage('${article["urlToImage"]}')),
                 ),
               ),
-            )
-          ],
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Container(
+                  height: 120,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Text("${article['title']}",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyText1),
+                      ),
+                      Text(
+                        '${article['publishedAt']}',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -59,7 +61,7 @@ Widget buildArticle(list, context, {isSearch = false}) {
       builder: (context) => ListView.separated(
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) =>
-                buildArticleItem(list[index], context),
+                buildArticleItem(list[index], context, index),
             separatorBuilder: (context, index) => Padding(
               padding: const EdgeInsetsDirectional.only(start: 20.0),
               child: Container(
